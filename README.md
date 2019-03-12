@@ -17,24 +17,37 @@ By default, this will be read-only. To check:
 ```
 ls -al /dev/bus/usb/001/007
 ```
+where 001 is the `Bus` and is 007 is the `Device`.
 
-To change this permanently, we need to add udev rule. In `/etc/udev/rules.d/` add a new file `98-mic-array.rules` and add the following line:
-```
-ATTR{idVendor}=="1d6b", ATTR{idProduct}=="0002", GROUP="pi"
-```
-This rule leaves the permissions set to 664 while changing the ownership to root:pi. The root user owns the device, members of the pi group (which includes pi) have read/write access and all other users have read-only access.
 
-Finally, unplug and re-plug the microphone array for changes to take effect.
+Set the permissions to 664 while changing the ownership to `root:pi`. The root user owns the device, members of the pi group (which includes pi) have read/write access, and all other users have read-only access. To do this, add a new file `98-mic-array.rules` to `/etc/udev/rules.d/` with the following line:
+```
+SUBSYSTEM=="usb", ATTR{idVendor}=="2886", ATTR{idProduct}=="0018", GROUP="pi"
+```
+
+Reload udev rules:
+```
+sudo udevadm control --reload-rules && udevadm trigger
+```
+
+Then re-plug the microphone array for changes to take effect.
 
 
 ## Usage
-This should prepare the appropriate Python virtual environment
+Prepare the appropriate Python virtual environment:
 ```
 ./setup
 source venv/bin/activate
 ```
 
-## Updating Firmware
+Run:
+```
+python doa.py
+```
 
+
+## Update Firmware
+```
 python dfu.py --download 6_channels_firmware.bin
 python dfu.py --download 1_channel_firmware.bin
+```
