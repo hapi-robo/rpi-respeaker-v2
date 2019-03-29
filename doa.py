@@ -79,9 +79,12 @@ if __name__ == '__main__':
                     if doa > 180: doa = doa - 360
 
                     # publish data
-                    data = {'angle':doa}
-                    client.publish('robot/servo/pan', json.dumps(data))
-                    
+                    data = {
+                        'x':0.0,
+                        'y':0.5
+                    }
+                    client.publish('robot/eyes/position', json.dumps(data))
+
                     # print to console
                     print("DOA: {}°".format(doa)) # direction of arrival
                     # print("VAD: {}".format(mic.is_voice())) # voice activity detection
