@@ -1,6 +1,11 @@
 # ReSpeaker Mic Array v2.0
 
 ## Installation
+Install `libusb`:
+```
+sudo apt-get install libusb-1.0-0-dev
+```
+
 Plug in the microphone array into the USB port.
 
 Use `lsusb` to verify that the device has been detected, for example:
